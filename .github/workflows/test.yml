@@ -1,0 +1,10 @@
+name: Test Reusable
+on: workflow_dispatch
+jobs:
+  test:
+    uses: diaryx-org/.github/.github/workflows/reusable-plugin-release.yml@main
+    with:
+      plugin-id: diaryx.math
+      crate-name: diaryx_math_extism
+    secrets:
+      REGISTRY_PAT: ${{ secrets.REGISTRY_PAT }}
