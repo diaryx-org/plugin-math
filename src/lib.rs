@@ -75,57 +75,53 @@ fn render_latex(source: &str, display_mode: bool) -> RenderOutput {
 /// Return the plugin manifest.
 #[plugin_fn]
 pub fn manifest(_input: String) -> FnResult<String> {
-    let manifest = GuestManifest {
-        protocol_version: CURRENT_PROTOCOL_VERSION,
-        id: "diaryx.math".into(),
-        name: "Math".into(),
-        version: env!("CARGO_PKG_VERSION").into(),
-        description: "LaTeX math rendering with inline ($...$) and block ($$...$$) support".into(),
-        capabilities: vec!["editor_extension".into()],
-        ui: vec![
-            // Inline math: $...$
-            serde_json::json!({
-                "slot": "EditorExtension",
-                "extension_id": "mathInline",
-                "node_type": "InlineAtom",
-                "markdown": {
-                    "level": "Inline",
-                    "open": "$",
-                    "close": "$",
-                },
-                "render_export": "render_content",
-                "edit_mode": "Popover",
-                "css": null,
-                "insert_command": {
-                    "label": "Math",
-                    "icon": "sigma",
-                    "description": "Insert inline math",
-                },
-            }),
-            // Block math: $$...$$
-            serde_json::json!({
-                "slot": "EditorExtension",
-                "extension_id": "mathBlock",
-                "node_type": "BlockAtom",
-                "markdown": {
-                    "level": "Block",
-                    "open": "$$",
-                    "close": "$$",
-                },
-                "render_export": "render_content",
-                "edit_mode": "SourceToggle",
-                "css": null,
-                "insert_command": {
-                    "label": "Math Block",
-                    "icon": "square-sigma",
-                    "description": "Insert math block",
-                },
-            }),
-        ],
-        commands: vec![],
-        cli: vec![],
-        requested_permissions: None,
-    };
+    let manifest = GuestManifest::new(
+        "diaryx.math".into(),
+        "Math".into(),
+        env!("CARGO_PKG_VERSION").into(),
+        "LaTeX math rendering with inline ($...$) and block ($$...$$) support".into(),
+        vec!["editor_extension".into()],
+    )
+    .ui(vec![
+        // Inline math: $...$
+        serde_json::json!({
+            "slot": "EditorExtension",
+            "extension_id": "mathInline",
+            "node_type": "InlineAtom",
+            "markdown": {
+                "level": "Inline",
+                "open": "$",
+                "close": "$",
+            },
+            "render_export": "render_content",
+            "edit_mode": "Popover",
+            "css": null,
+            "insert_command": {
+                "label": "Math",
+                "icon": "sigma",
+                "description": "Insert inline math",
+            },
+        }),
+        // Block math: $$...$$
+        serde_json::json!({
+            "slot": "EditorExtension",
+            "extension_id": "mathBlock",
+            "node_type": "BlockAtom",
+            "markdown": {
+                "level": "Block",
+                "open": "$$",
+                "close": "$$",
+            },
+            "render_export": "render_content",
+            "edit_mode": "SourceToggle",
+            "css": null,
+            "insert_command": {
+                "label": "Math Block",
+                "icon": "square-sigma",
+                "description": "Insert math block",
+            },
+        }),
+    ]);
 
     Ok(serde_json::to_string(&manifest)?)
 }
