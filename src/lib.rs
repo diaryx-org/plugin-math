@@ -76,10 +76,10 @@ fn render_latex(source: &str, display_mode: bool) -> RenderOutput {
 #[plugin_fn]
 pub fn manifest(_input: String) -> FnResult<String> {
     let manifest = GuestManifest::new(
-        "diaryx.math".into(),
-        "Math".into(),
-        env!("CARGO_PKG_VERSION").into(),
-        "LaTeX math rendering with inline ($...$) and block ($$...$$) support".into(),
+        "diaryx.math",
+        "Math",
+        env!("CARGO_PKG_VERSION"),
+        "LaTeX math rendering with inline ($...$) and block ($$...$$) support",
         vec!["editor_extension".into()],
     )
     .ui(vec![
